@@ -11,6 +11,7 @@ export default function CarCard({ car }: { car: any }) {
       return;
     }
 
+  
     const newTitle = prompt("Enter new title:", car.title);
     const newDescription = prompt("Enter new description:", car.description);
 
