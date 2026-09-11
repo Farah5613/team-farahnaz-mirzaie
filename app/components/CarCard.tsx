@@ -65,6 +65,7 @@ export default function CarCard({ car }: { car: any }) {
       } catch (err) {
         console.error(err);
         alert("Network error during delete!");
+        
       }
     }
   };
