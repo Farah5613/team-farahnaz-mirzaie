@@ -14,6 +14,7 @@ export default function InsertCar() {
     event.preventDefault();
 
     setLoading(true);
+    
 
     try {
       const response = await fetch('/api/cars', {
