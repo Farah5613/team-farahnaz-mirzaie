@@ -1,53 +1,33 @@
 import { NextResponse } from 'next/server';
-import { ticketsDB } from '../../lib/couchdb';
+import nano from 'nano';
 
-// 1. خواندن لیست ماشین‌ها (Read)
+const couchurl = process.env.COUCHDB_URL || 'http://admin:secret123@127.0.0.1:5984';
+const couch = (nano as any)(couchurl);
+const db = couch.use('cars_db');
+
 export async function GET() {
   try {
-    const result = await ticketsDB.list({ include_docs: true });
-    const cars = result.rows.map((row: any) => row.doc);
+    const data = await db.list({ include_docs: true });
+    const cars = data.rows
+      .filter((row: any) => !row.id.startsWith('_design/'))
+      .map((row: any) => row.doc);
     return NextResponse.json(cars);
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to load cars data' }, { status: 500 });
+  } catch (error: any) {
+    console.error("Couchdb Error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
 
-// 2. ثبت ماشین جدید (Create)
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const response = await ticketsDB.insert(body);
-    return NextResponse.json({ success: true, response });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to create car' }, { status: 500 });
-  }
-}
-
-// 3. ویرایش ماشین (Update)
-export async function PUT(request: Request) {
-  try {
-    const body = await request.json(); // باید شامل _id و _rev و اطلاعات جدید باشد
-    const response = await ticketsDB.insert(body);
-    return NextResponse.json({ success: true, response });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to update car' }, { status: 500 });
-  }
-}
-
-// 4. حذف ماشین (Delete)
-export async function DELETE(request: Request) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get('id');
-    const rev = searchParams.get('rev');
-
-    if (!id || !rev) {
-      return NextResponse.json({ error: 'ID and Rev are required' }, { status: 400 });
-    }
-
-    const response = await ticketsDB.destroy(id, rev);
-    return NextResponse.json({ success: true, response });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to delete car' }, { status: 500 });
+    const response = await db.insert({
+      _id: Date.now().toString(),
+      ...body,
+    });
+    return NextResponse.json({ success: true, car: response });
+  } catch (error: any) {
+    console.error("Couchdb Error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

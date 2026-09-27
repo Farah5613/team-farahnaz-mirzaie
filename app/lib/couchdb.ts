@@ -1,8 +1,5 @@
-import nano from 'nano';
+import Nano from 'nano';
 
-if (!process.env.COUCH_URL) {
-  throw new Error('COUCH_URL is missing from environment');
-}
+const nano = Nano('http://admin:secret123@localhost:5984');
 
-export const couch = nano(process.env.COUCH_URL);
-export const ticketsDB = couch.db.use('ticket_db');
+export const db = nano.db.use('kanban_test');

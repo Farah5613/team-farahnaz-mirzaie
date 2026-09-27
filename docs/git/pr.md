@@ -1,3 +1,3 @@
 git add .
-git commit -m "project setup updated"
+git commit -m "insert added"
 git push origin main
