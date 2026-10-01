@@ -11,7 +11,6 @@ type Car = {
 
 type CouchDocument = Car | null;
 
-// 1. خواندن لیست ماشین‌ها (Read)
 export async function GET() {
   try {
     await couchReady;
@@ -37,7 +36,6 @@ export async function GET() {
   }
 }
 
-// 2. ثبت ماشین جدید (Create)
 export async function POST(request: Request) {
   try {
     await couchReady;
