@@ -1,7 +1,8 @@
- feature/loding-page
 # Luxury & Sports Car Gallery (Car Management Web App)
 
 A modern web application built for managing a luxury and sports car gallery, featuring full **CRUD** (Create, Read, Update, Delete) operations.
+
+---
 
 ## 🚀 Features
 
@@ -9,26 +10,38 @@ A modern web application built for managing a luxury and sports car gallery, fea
 - **Add Cars (Create):** Register new vehicles into the gallery system using a dedicated form.
 - **Edit/Update Cars (Update):** Modify existing car details easily.
 - **Delete Cars (Delete):** Remove cars from the gallery database.
-- **Responsive UI:** Clean and modern interface built with Tailwind CSS and Next.js.
+- **Responsive UI:** Clean and modern interface built with **Tailwind CSS** and **Next.js**.
+
+---
 
 ## 🛠️ Tech Stack
 
-- **Framework:** Next.js (React)
-- **Styling:** Tailwind CSS
-- **Database / Storage:** CouchDB / JSON / Prisma (as configured in the project)
-- **Language:** TypeScript
+- Frontend / Framework: `Next.js`
+- Styling: `Tailwind CSS`
+
+---
 
 ## ⚙️ Prerequisites
 
-Make sure you have **Node.js** installed on your system.
+Before you start, make sure you have installed:
+- `Node.js` (v18 or higher recommended)
+- `npm` or `yarn`
+
+---
 
 ## 📦 Installation & Setup
 
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/Farah5613/team-farahnaz-mirzaie.git](https://github.com/Farah5613/team-farahnaz-mirzaie.git)
-   cd team-farahnaz-mirzaie# team-farahnaz-mirzaie
-   ```
+Clone the repository and install dependencies using the following commands:
 
-team-farahnaz-saeed
- main
+```bash
+# Clone the repository
+git clone [https://github.com/your-username/car-gallery.git](https://github.com/your-username/car-gallery.git)
+
+# Navigate to the project directory
+cd car-gallery
+
+# Install dependencies
+npm install
+
+# Run the development server
+npm run dev
