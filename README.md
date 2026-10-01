@@ -1,30 +1,28 @@
-# Luxury & Sports Car Gallery (Car Management Web App)
+# Team Farahnaz Mirzaie
 
-A modern web application built for managing a luxury and sports car gallery, featuring full **CRUD** (Create, Read, Update, Delete) operations.
+A modern web application built with **Next.js**, **Prisma**, and **Tailwind CSS** for efficient data management and a smooth user experience.
 
-## 🚀 Features
+## ✨ Features
 
-- **View Cars (Read):** Browse a list of luxury and sports cars with detailed information and images.
-- **Add Cars (Create):** Register new vehicles into the gallery system using a dedicated form.
-- **Edit/Update Cars (Update):** Modify existing car details easily.
-- **Delete Cars (Delete):** Remove cars from the gallery database.
-- **Responsive UI:** Clean and modern interface built with Tailwind CSS and Next.js.
+- **Next.js App Router & Loading States:** Implemented global loading UI (`loading.tsx`) to handle asynchronous page transitions smoothly.
+- **Reusable Skeleton UI:** Custom `Skeleton` components built with Tailwind CSS to provide modern loading placeholders.
+- **Database Integration:** Configured with Prisma for robust data handling and operations.
+- **Responsive Design:** Clean and modern user interface styled entirely with Tailwind CSS.
 
-## 🛠️ Tech Stack
+## 🚀 Tech Stack
 
 - **Framework:** Next.js (React)
 - **Styling:** Tailwind CSS
-- **Database / Storage:** CouchDB / JSON / Prisma (as configured in the project)
-- **Language:** TypeScript
+- **Database & ORM:** Prisma
+- **Language:** TypeScript / JavaScript
 
-## ⚙️ Prerequisites
+## 📦 Getting Started
 
-Make sure you have **Node.js** installed on your system.
+First, run the development server:
 
-## 📦 Installation & Setup
-
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/Farah5613/team-farahnaz-mirzaie.git](https://github.com/Farah5613/team-farahnaz-mirzaie.git)
-   cd team-farahnaz-mirzaie# team-farahnaz-mirzaie
-   ```
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm 
