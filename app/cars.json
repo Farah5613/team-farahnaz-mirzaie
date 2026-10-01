@@ -1,22 +1,23 @@
 [
   {
-    "id": 1,
+    "id": "1",
     "title": "Tesla Model S",
     "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=800&q=80",
-    "description": "All-electric sedan featuring instant acceleration, long driving range, and advanced autopilot features."
+    "description": "All-electric sedan featuring instant acceleration, long driving range, and advanced autopilot capabilities."
   },
   {
-    "id": 2,
+    "id": "2",
     "title": "Porsche 911 Carrera",
     "image": "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=800&q=80",
-    "description": "Iconic sports car with timeless design, precision engineering, and exceptional rear-engine handling."
+    "description": "Iconic sports car with timeless design, precision engineering, and exceptional rear-engine performance."
   },
   {
-    "id": 3,
+    "id": "3",
     "title": "BMW M4 Competition",
     "image": "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80",
     "description": "Aggressive high-performance coupe powered by a twin-turbo inline-6 with track-ready agility."
   },
+
   {
     "id": 4,
     "title": "Audi R8 V10 Performance",
@@ -26,7 +27,7 @@
   {
     "id": 5,
     "title": "Mercedes-AMG GT",
-    "image": "https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=800&q=80",
+    "image": "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&w=800&q=80",
     "description": "A striking blend of luxury and raw performance, equipped with a handcrafted biturbo V8 engine."
   },
   {
@@ -43,7 +44,7 @@
   },
   {
     "id": 8,
-    "title": "Lamborghini Huracán EVO",
+    "title": "Lamborghini Huracán EVOt",
     "image": "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=800&q=80",
     "description": "Exotic Italian supercar with sharp geometric aerodynamics and an intoxicating V10 exhaust note."
   },
