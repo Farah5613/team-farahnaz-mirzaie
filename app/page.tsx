@@ -35,7 +35,7 @@ export default async function Home() {
         <div className="flex items-center justify-between mb-10">
           <h1 className="text-3xl font-extrabold text-gray-900">Luxury & Sports Car Gallery</h1>
           <InsertCar />
-        </div>
+      
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {carsData.map((car) => (
@@ -97,7 +97,8 @@ export default async function Home() {
             </div>
           ))}
         </div>
-      )}
-    </main>
-  );
-}
+        </div>
+      </div>
+  </main>
+    );
+    }
