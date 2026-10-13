@@ -25,10 +25,9 @@ export default function InsertCar({ car, onUpdateSuccess, onAddSuccess }: Insert
     }
   }, [car]);
 
-async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
-    
 
     try {
       const isEditing = !!car;
@@ -126,7 +125,7 @@ async function handleSubmit(event: FormEvent<HTMLFormElement>) {
           disabled={loading}
           className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
         >
-          {loading ? '... در حال ارسال' : (car ? 'ویرایش اطلاعات' : 'ذخیره خودرو')}
+          {loading ? '... در حال ارسال' : car ? 'ویرایش اطلاعات' : 'ذخیره خودرو'}
         </button>
         <button
           type="button"
