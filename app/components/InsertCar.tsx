@@ -88,34 +88,34 @@ export default function InsertCar({ car, onUpdateSuccess, onAddSuccess }: Insert
       <h2 className="text-lg font-bold">{car ? 'ویرایش خودرو' : 'فرم ثبت خودرو'}</h2>
 
       <div>
-        <label className="block text-sm font-medium mb-1">عنوان خودرو</label>
+        <label className="block text-sm font-bold text-gray-900 mb-1">عنوان خودرو</label>
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
-          className="w-full border px-3 py-2 rounded"
+          className="w-full border-2 border-black px-3 py-2 rounded text-gray-900"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">توضیحات</label>
+        <label className="block text-sm font-bold text-gray-900 mb-1">توضیحات</label>
         <input
           type="text"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="w-full border px-3 py-2 rounded"
+          className="w-full border-2 border-black px-3 py-2 rounded text-gray-900"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">لینک تصویر خودرو</label>
+        <label className="block text-sm font-bold text-gray-900  mb-1">لینک تصویر خودرو</label>
         <input
           type="text"
           value={image}
           onChange={(e) => setImage(e.target.value)}
           placeholder="https://..."
-          className="w-full border px-3 py-2 rounded"
+          className="w-full border-2 border-black px-3 py-2 rounded text-gray-900"
         />
       </div>
 
