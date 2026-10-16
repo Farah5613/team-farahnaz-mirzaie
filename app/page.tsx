@@ -1,15 +1,14 @@
 'use client';
-
+import { Car } from "@/lib/types";
 import { useEffect, useState } from 'react';
 import InsertCar from './components/InsertCar';
 
 export default function Home() {
-  const [cars, setCars] = useState<any[]>([]);
+  const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
   // State برای مدیریت حالت ویرایش ماشین
-  const [editingCar, setEditingCar] = useState<any>(null);
+  const [editingCar, setEditingCar] = useState<Car | null>(null);
 
   // تابع خواندن ماشین‌ها (Read)
   const fetchCars = async () => {
@@ -21,16 +20,23 @@ export default function Home() {
       }
       const data = await res.json();
       setCars(data);
-    } catch (err: any) {
+    } catch (err: unknown) {
+      if (err instanceof Error){
       setError(err.message);
-    } finally {
+      }
+    } finally { 
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchCars();
-  }, []);
+  const loadCars = async () => {
+    await fetchCars(); // <--- این خط باید داخل تابع باشه
+  };
+  
+  loadCars(); // <--- اینجا تابع رو اجرا می‌کنیم
+}, []);
+  
 
   // تابع حذف ماشین (Delete)
 // (Delete) تابع حذف ماشین
@@ -48,13 +54,14 @@ export default function Home() {
         throw new Error('Failed to delete car');
       }
       fetchCars();
-    } catch (err: any) {
+    } catch (err: unknown) {
+      if (err instanceof Error)
       setError(err.message);
-    }
-  };
+    };
+  }
 
   // تابع انتخاب ماشین برای ویرایش (Update)
-  const handleEdit = (car: any) => {
+  const handleEdit = (car: Car) => {
     setEditingCar(car);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -84,7 +91,7 @@ export default function Home() {
         <p className="text-center text-gray-500">No cars found in the database.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {cars.map((car: any) => (
+          {cars.map((car: Car) => (
             <div 
               key={car._id || car.id} 
               className="border p-4 rounded-lg shadow bg-white group hover:shadow-lg transition-shadow duration-300 relative"
@@ -98,7 +105,7 @@ export default function Home() {
                   Edit
                 </button>
                 <button
-                  onClick={() => handleDelete(car._id || car.id)}
+                 onClick={() => handleDelete(String(car._id || car.id))}
                   className="px-2.5 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600 transition"
                 >
                   Delete
