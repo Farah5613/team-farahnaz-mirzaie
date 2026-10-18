@@ -1,141 +1,137 @@
-'use client';
+"use client";
 
-import { FormEvent, useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Car } from "@/lib/types"; // همون تایپی که ساختیم
 
 interface InsertCarProps {
-  car?: any;
-  onUpdateSuccess?: () => void;
-  onAddSuccess?: () => void;
+  car: Car | null; // اگه در حالت ویرایش باشه
+  onAddSuccess: () => void; // تابعی که بعد از ثبت موفق صدا زده میشه (fetchCars)
+  onUpdateSuccess: () => void; // تابعی که بعد از ویرایش موفق صدا زده میشه
 }
 
-export default function InsertCar({ car, onUpdateSuccess, onAddSuccess }: InsertCarProps) {
-  const [open, setOpen] = useState(false);
+export default function InsertCar({ car, onAddSuccess, onUpdateSuccess }: InsertCarProps) {
+  const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [image, setImage] = useState('');
+  
+  // استیت فرم
+  const [formData, setFormData] = useState<Car>({
+    title: "",
+    image: "",
+    description: "",
+  });
 
-  // هر زمان که کاربری روی دکمه Edit کلیک کرد و car تغییر کرد، فرم پر شود و باز شود
-  useEffect(() => {
+  // اگر خودرویی برای ویرایش انتخاب شد، فرم را پر کن و مودال را باز کن
+useEffect(() => {
+  const initializeForm = async () => {
     if (car) {
-      setTitle(car.title || '');
-      setDescription(car.description || '');
-      setImage(car.image || '');
-      setOpen(true); // فرم باز شود تا کاربر بتواند ویرایش کند
+      setFormData(car);
+      // با یک تاخیر خیلی کوچیک مودال رو باز می‌کنیم تا ارور نده
+      setTimeout(() => setIsOpen(true), 0);
+    } else {
+      setFormData({ title: "", image: "", description: "" });
     }
-  }, [car]);
+  };
 
-async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  initializeForm();
+}, [car]);
+
+  // هندل کردن تایپ در فیلدها
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // هندل کردن ثبت (چه برای Add و چه برای Update)
+  const handleSubmit = async () => {
     setLoading(true);
-    
-
     try {
-      const isEditing = !!car;
-      const carId = car?._id || car?.id;
-      const url = isEditing ? `/api/cars/${carId}` : '/api/cars';
-      const method = isEditing ? 'PUT' : 'POST';
+      const method = car ? "PUT" : "POST";
+      const id = car?._id || car?.id;
+      const url = car ? `/api/cars/${id}` : "/api/cars";
 
       const res = await fetch(url, {
-        method: method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ title, description, image }),
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
 
-      if (res.ok) {
-        setTitle('');
-        setDescription('');
-        setImage('');
-        setOpen(false);
+      if (!res.ok) throw new Error("مشکلی در ذخیره‌سازی پیش آمد");
 
-        if (isEditing && onUpdateSuccess) {
-          onUpdateSuccess();
-        } else if (!isEditing && onAddSuccess) {
-          onAddSuccess();
-        } else {
-          window.location.reload();
-        }
+      // 1. بستن مودال (طبق خواسته استاد)
+      setIsOpen(false);
+      
+      // 2. پاک کردن فرم
+      setFormData({ title: "", image: "", description: "" });
+
+      // 3. رفرش لیست
+      if (car) {
+        onUpdateSuccess();
       } else {
-        console.error('Failed to save car');
+        onAddSuccess();
       }
+      
     } catch (error) {
-      console.error('Error saving car:', error);
+      console.error(error);
+      alert("خطا در ثبت اطلاعات");
     } finally {
       setLoading(false);
     }
-  }
-
-  if (!open) {
-    return (
-      <button
-        onClick={() => {
-          // اگر خواست ماشین جدید اضافه کند، فرم پاک شود
-          setTitle('');
-          setDescription('');
-          setImage('');
-          setOpen(true);
-        }}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mb-6"
-      >
-        افزودن خودروی جدید
-      </button>
-    );
-  }
-
+  };
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow-md mb-6 space-y-4">
-      <h2 className="text-lg font-bold">{car ? 'ویرایش خودرو' : 'فرم ثبت خودرو'}</h2>
+  <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <DialogTrigger asChild>
+      <Button className="w-full bg-blue-600 hover:bg-blue-700">
+        {car ? "ویرایش خودرو" : "افزودن خودروی جدید"}
+      </Button>
+    </DialogTrigger>
+    
+    <DialogContent className="sm:max-w-md">
+      <div dir="rtl">
+        <DialogHeader>
+          <DialogTitle>{car ? "ویرایش اطلاعات خودرو" : "ثبت خودروی جدید"}</DialogTitle>
+          <DialogDescription>
+            اطلاعات خودرو را وارد کنید و دکمه ثبت را بزنید.
+          </DialogDescription>
+        </DialogHeader>
 
-      <div>
-        <label className="block text-sm font-medium mb-1">عنوان خودرو</label>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-          className="w-full border px-3 py-2 rounded"
-        />
-      </div>
+        {/* 👇 این بخش فرم رو دوباره اضافه کنید 👇 */}
+        <div className="grid gap-4 py-4 text-right">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="title" className="text-right">عنوان</Label>
+            <Input id="title" name="title" value={formData.title} onChange={handleChange} className="col-span-3" placeholder="مثلاً: پورشه 911" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="image" className="text-right">لینک تصویر</Label>
+            <Input id="image" name="image" value={formData.image} onChange={handleChange} className="col-span-3" placeholder="https://..." />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="description" className="text-right">توضیحات</Label>
+            <Textarea id="description" name="description" value={formData.description} onChange={handleChange} className="col-span-3" placeholder="توضیحات..." />
+          </div>
+        </div>
+        {/* 👆 پایان بخش فرم 👆 */}
 
-      <div>
-        <label className="block text-sm font-medium mb-1">توضیحات</label>
-        <input
-          type="text"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="w-full border px-3 py-2 rounded"
-        />
+        <DialogFooter>
+          <Button type="button" onClick={handleSubmit} disabled={loading}>
+            {loading ? "در حال ذخیره..." : (car ? "ثبت ویرایش" : "ثبت نهایی")}
+          </Button>
+        </DialogFooter>
       </div>
-
-      <div>
-        <label className="block text-sm font-medium mb-1">لینک تصویر خودرو</label>
-        <input
-          type="text"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-          placeholder="https://..."
-          className="w-full border px-3 py-2 rounded"
-        />
-      </div>
-
-      <div className="flex gap-2">
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-        >
-          {loading ? '... در حال ارسال' : (car ? 'ویرایش اطلاعات' : 'ذخیره خودرو')}
-        </button>
-        <button
-          type="button"
-          onClick={() => setOpen(false)}
-          className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
-        >
-          انصراف
-        </button>
-      </div>
-    </form>
-  );
+    </DialogContent>
+  </Dialog>
+);
 }
+
