@@ -12,12 +12,11 @@
     "description": "Iconic sports car with timeless design, precision engineering, and exceptional rear-engine performance."
   },
   {
-    "id": "3",
+    "id": 3,
     "title": "BMW M4 Competition",
     "image": "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80",
-    "description": "Aggressive high-performance coupe powered by a twin-turbo inline-6 with track-ready agility."
+    "description": "High performance sports car with exceptional agility."
   },
-
   {
     "id": 4,
     "title": "Audi R8 V10 Performance",
