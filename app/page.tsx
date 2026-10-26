@@ -1,5 +1,6 @@
 'use client';
-import { Car } from "@/lib/types";
+
+import { Car } from '@/lib/types';
 import { useEffect, useState } from 'react';
 import InsertCar from './components/InsertCar';
 
@@ -7,13 +8,14 @@ export default function Home() {
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  // State برای مدیریت حالت ویرایش ماشین
+
+  // State to manage the editing state (currently editing car)
   const [editingCar, setEditingCar] = useState<Car | null>(null);
 
-  // تابع خواندن ماشین‌ها (Read)
+  // Function to fetch cars (Read)
   const fetchCars = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const res = await fetch('/api/cars');
       if (!res.ok) {
         throw new Error(`Failed to fetch cars: ${res.status}`);
@@ -21,27 +23,24 @@ export default function Home() {
       const data = await res.json();
       setCars(data);
     } catch (err: unknown) {
-      if (err instanceof Error){
-      setError(err.message);
+      if (err instanceof Error) {
+        setError(err.message);
       }
-    } finally { 
+    } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-  const loadCars = async () => {
-    await fetchCars(); // <--- این خط باید داخل تابع باشه
-  };
-  
-  loadCars(); // <--- اینجا تابع رو اجرا می‌کنیم
-}, []);
-  
+    const loadCars = async () => {
+      await fetchCars(); // This line should be inside the function
+    };
+    loadCars(); // Here we execute the function
+  }, []);
 
-  // تابع حذف ماشین (Delete)
-// (Delete) تابع حذف ماشین
+  // Function to delete a car (Delete)
   const handleDelete = async (id: string) => {
-    if (!window.confirm('آیا مطمئن هستید که می‌خواهید این ماشین را حذف کنید؟')) {
+    if (!window.confirm('Are you sure you want to delete this car?')) {
       return;
     }
 
@@ -55,12 +54,13 @@ export default function Home() {
       }
       fetchCars();
     } catch (err: unknown) {
-      if (err instanceof Error)
-      setError(err.message);
-    };
-  }
+      if (err instanceof Error) {
+        setError(err.message);
+      }
+    }
+  };
 
-  // تابع انتخاب ماشین برای ویرایش (Update)
+  // Function to select a car for editing (Update)
   const handleEdit = (car: Car) => {
     setEditingCar(car);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -78,7 +78,7 @@ export default function Home() {
     <main className="p-8 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-center">Luxury & Sports Car Gallery</h1>
 
-      {/* فرم ثبت یا ویرایش خودرو */}
+      {/* Car registration or editing form */}
       <div className="mb-8">
         <InsertCar
           car={editingCar}
@@ -92,11 +92,11 @@ export default function Home() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {cars.map((car: Car) => (
-            <div 
-              key={car._id || car.id} 
+            <div
+              key={car._id || car.id}
               className="border p-4 rounded-lg shadow bg-white group hover:shadow-lg transition-shadow duration-300 relative"
             >
-              {/* دکمه‌های ویرایش و حذف روی کارت */}
+              {/* Edit and delete buttons on the card */}
               <div className="absolute top-3 right-3 flex gap-2 bg-white/80 p-1 rounded-md shadow-sm">
                 <button
                   onClick={() => handleEdit(car)}
@@ -105,24 +105,23 @@ export default function Home() {
                   Edit
                 </button>
                 <button
-                 onClick={() => handleDelete(String(car._id || car.id))}
+                  onClick={() => handleDelete(String(car._id || car.id))}
                   className="px-2.5 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600 transition"
                 >
                   Delete
                 </button>
               </div>
-
               {car.image && (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={car.image}
                   alt={car.title}
                   className="w-full h-48 object-cover rounded-md mb-3"
                 />
               )}
+
               <h2 className="text-xl font-semibold text-gray-800">{car.title}</h2>
-              <p className="text-gray-600 text-sm mt-2 line-clamp-3">
-                {car.description}
-              </p>
+              <p className="text-gray-600 text-sm mt-2 line-clamp-3">{car.description}</p>
             </div>
           ))}
         </div>

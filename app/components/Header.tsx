@@ -7,28 +7,28 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
       <div className="container flex h-16 items-center justify-between mx-auto px-4 max-w-7xl">
-        {/* لوگو */}
+        {/* Logo */}
         <div className="flex items-center gap-2">
-          <span className="text-xl font-bold text-blue-600">🚗 گالری خودرو</span>
+          <span className="text-xl font-bold text-blue-600">🚗 Laleh Cars</span>
         </div>
 
-        {/* لینک‌ها */}
+        {/* Links */}
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
           <Link href="/" className="transition-colors hover:text-blue-600 hover:no-underline">
-            خانه
+            Home
           </Link>
           <Link href="/cars" className="transition-colors hover:text-blue-600 hover:no-underline">
-            خودروها
+            Cars
           </Link>
           <Link href="/about" className="transition-colors hover:text-blue-600 hover:no-underline">
-            درباره ما
+            About Us
           </Link>
         </nav>
 
-        {/* دکمه ورود */}
+        {/* Login Button */}
         <div className="flex items-center gap-4">
           <Button variant="default" className="bg-blue-600 hover:bg-blue-700 text-white">
-            ورود / ثبت‌ نام
+            Login / Sign Up
           </Button>
         </div>
       </div>
