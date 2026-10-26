@@ -45,7 +45,7 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-vazirmatn), sans-serif;
+  --font-sans: var(--font-vazirmatn), var(--font-inter), sans-serif;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
