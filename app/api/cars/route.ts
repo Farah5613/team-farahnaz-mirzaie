@@ -11,52 +11,38 @@ type Car = {
 
 type CouchDocument = Car | null;
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     await couchReady;
 
-    const result = await cars_db.list({
-      include_docs: true,
-    });
+    // ۱. خواندن شماره صفحه و تعداد از آدرس (URL)
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '15', 10);
+    const skip = (page - 1) * limit;
 
-    const cars = result.rows
+    // ۲. گرفتن همه اطلاعات از دیتابیس
+    const result = await cars_db.list({ include_docs: true });
+
+    // ۳. فیلتر کردن داکیومنت‌های اضافی (مثل design doc) و تبدیل به تایپ Car
+    const allCars = result.rows
       .map((row) => row.doc as CouchDocument)
       .filter((doc): doc is Car => doc !== null);
 
-    return NextResponse.json(cars);
-  } catch (error) {
-    console.error('GET /api/cars error:', error);
+    // ۴. برش دادن لیست (فقط ماشین‌های مربوط به این صفحه)
+    const totalCars = allCars.length;
+    const paginatedCars = allCars.slice(skip, skip + limit);
 
-    return NextResponse.json(
-      {
-        error: 'Failed to load cars data',
-      },
-      { status: 500 },
-    );
-  }
-}
-
-export async function POST(request: Request) {
-  try {
-    await couchReady;
-
-    const body = (await request.json()) as Car;
-
-    const response = await cars_db.insert(body);
-
+    // ۵. برگرداندن جواب به همراه تعداد کل صفحات
     return NextResponse.json({
-      success: true,
-      response,
+      cars: paginatedCars,
+      totalPages: Math.ceil(totalCars / limit),
+      currentPage: page,
+      totalCars,
     });
   } catch (error) {
-    console.error('POST /api/cars error:', error);
-
-    return NextResponse.json(
-      {
-        error: 'Failed to create car',
-      },
-      { status: 500 },
-    );
+    console.error('GET /api/cars error:', error);
+    return NextResponse.json({ error: 'Failed to load cars data' }, { status: 500 });
   }
 }
 
