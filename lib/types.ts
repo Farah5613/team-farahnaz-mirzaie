@@ -1,7 +1,9 @@
-export interface Car {
+export type Car = {
   _id?: string;
-  id?: string;
+  _rev?: string;
   title: string;
-  image: string;
   description: string;
-}
+  image: string;
+};
+
+export type CouchDocument = Car | null;
