@@ -1,49 +1,41 @@
-# Lebenslauf | Professionelle CV-Webanwendung
+# Luxury & Sports Car Gallery (Car Management Web App)
 
-**Lebenslauf** ist eine moderne und dynamische Webanwendung zur Erstellung und Verwaltung von Lebensläufen (CVs). Ziel dieses Projekts ist es, eine flüssige und schnelle Benutzererfahrung zu bieten, mit der Sie Ihren beruflichen Werdegang, Ihre Ausbildung und Ihre Fähigkeiten optimal verwalten und präsentieren können.
+A modern web application built for managing a luxury and sports car gallery, featuring full **CRUD** (Create, Read, Update, Delete) operations.
 
-## 🚀 Hauptfunktionen
+## 🚀 New Features (Redis Caching)
 
-- **Vollständige CV-Verwaltung (CRUD):** Erstellen, Anzeigen, Bearbeiten und Löschen von Berufserfahrungen, Ausbildungen und Fähigkeiten.
-- **Hohe Performance:** Integriertes Caching-System (Redis) für sofortige API-Antworten und zur Entlastung der Datenbank.
-- **Modernes Design:** Saubere, responsive und benutzerfreundliche Oberfläche mit Next.js und Tailwind CSS.
-- **Skalierbare Architektur:** Modulares Design, das eine einfache Erweiterung der verschiedenen Lebenslauf-Bereiche ermöglicht.
+We have implemented a high-performance Redis caching layer to optimize the API and reduce the load on the primary database (CouchDB).
 
-## 🛠️ Verwendete Technologien
+- **GET Requests:** Responses are cached with a 5-minute Time-To-Live (TTL), reducing response times from ~400ms to ~15ms.
+- **Cache Invalidation:** Any data modification (`POST`, `PUT`, `DELETE`) automatically invalidates the relevant cache to ensure data consistency.
 
-- **Frontend:** `Next.js` (React Framework)
+## 🛠️ Tech Stack
+
+- **Frontend / Framework:** `Next.js`
 - **Styling:** `Tailwind CSS`
-- **Primäre Datenbank:** `CouchDB`
-- **Caching-System:** `Redis` (zur Optimierung und Geschwindigkeitssteigerung)
+- **Database:** `CouchDB`
+- **Caching:** `Redis` (via Docker)
 
-## ⚙️ Voraussetzungen
+## ⚙️ Prerequisites
 
-Bevor Sie beginnen, stellen Sie bitte sicher, dass Folgendes installiert ist:
+- `Node.js` (v18 or higher)
+- `Docker` (for running CouchDB and Redis)
 
-- `Node.js` (Version 18 oder höher)
-- `Docker` (für die Ausführung der Container von CouchDB und Redis)
-
-## 🚀 Schnellstart & Installation
-
-Führen Sie die folgenden Befehle aus, um das Projekt auf Ihrem System zu starten:
+## 🚀 Installation & Setup
 
 ```bash
-# 1. Repository klonen
+# Clone the repository
 git clone https://github.com/Farah5613/team-farah-naz-mirzaie.git
 
-# 2. In das Projektverzeichnis wechseln
+# Navigate to the project directory
 cd team-farah-naz-mirzaie
 
-# 3. Abhängigkeiten installieren
+# Install dependencies
 npm install
 
-# 4. Datenbank und Caching-System starten (mit Docker)
+# Start Database and Redis via Docker
 docker compose up -d
 
-# 5. Entwicklungsserver starten
+# Run the development server
 npm run dev
 ```
-
-📚 Technische Dokumentation
-
-Für detaillierte Informationen zur Implementierung und Funktionsweise des Caching-Layers lesen Sie bitte die Datei REDIS_SETUP.md.
